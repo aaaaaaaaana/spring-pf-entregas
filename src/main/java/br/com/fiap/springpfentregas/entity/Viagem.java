@@ -30,20 +30,81 @@ public class Viagem {
 	@Column(name = "CHEGADA")
 	private LocalDateTime chegada;
 
-	@Column(name = "FK_VIAGEM_CLIENTE") // CHAVE ESTRANGEIRA
+	@ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(
+			name = "PESSOA",
+			referencedColumnName = "ID_PESSOA",
+			foreignKey = @ForeignKey(
+					name = "FK_PESSOA_CLIENTE"
+			)
+	)
 	private Pessoa cliente;
 
-	@Column(name = "FK_VIAGEM_DESTINO") //CHAVE ESTRANGEIRA
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name = "ENDERECO_DESTINO",
+			referencedColumnName = "ID_ENDERECO",
+			foreignKey = @ForeignKey(
+					name = "FK_DESTINO_ENDERECO"
+			)
+	)
 	private Endereco destino;
 
-	@Column(name = "FK_VIAGEM_ORIGEM") //CHAVE ESTRANGEIRA
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(
+			name = "ENDERECO_ORIGEM",
+			referencedColumnName = "ID_ENDERECO",
+			foreignKey = @ForeignKey(
+					name = "FK_ORIGEM_ENDERECO"
+			)
+	)
 	private Endereco origem;
 
-
-	@Column(name = "FK_VIAGEM_PASSAAGEIRO") // CHAVE ESTRANGEIRA
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(
+			name = "TB_VIAGEM_PASSAGEIRO",
+			joinColumns = {
+					@JoinColumn(
+							name = "VIAGEM",
+							referencedColumnName = "ID_VIAGEM",
+							foreignKey = @ForeignKey(
+									name = "FK_VOO_DO_PASSAGEIRO"
+							)
+					)
+			},
+			inverseJoinColumns = {
+					@JoinColumn(
+							name = "PASSAGEIRO",
+							referencedColumnName = "ID_PASSAGEIRO",
+							foreignKey = @ForeignKey(
+									name = "FK_PASSAGEIRO_DO_VOO"
+							)
+					)
+			}
+	)
 	private Set<Passageiro> passageiros = new LinkedHashSet<>();
 
-	@Column(name = "FK_VIAGEM_PRODUTO") // CHAVE ESTRANGEIRA
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(
+			name = "TB_VIAGEM_PRODUTO",
+			joinColumns = {
+					@JoinColumn(
+							name = "VIAGEM",
+							referencedColumnName = "ID_VIAGEM",
+							foreignKey = @ForeignKey(
+									name = "FK_VOO_DO_PRODUTO"
+							)
+					)
+			},
+			inverseJoinColumns = {
+					@JoinColumn(
+							name = "PRODUTO",
+							referencedColumnName = "ID_PRODUTO",
+							foreignKey = @ForeignKey(
+									name = "FK_PRODUTO_DO_VOO"
+							)
+					)
+			}
+	)
 	private Set<Produto> produtos = new LinkedHashSet<>();
 
 

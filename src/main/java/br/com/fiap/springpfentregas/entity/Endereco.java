@@ -29,7 +29,14 @@ public class Endereco {
 	@Column(name="COMPLEMENTO")
 	private String complemento;
 
-	@Column(name="FK_ENDERECO_PESSOA") //CHAVE ESTRANGEIRA
+	@ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(
+			name = "PESSOA",
+			referencedColumnName = "ID_PESSOA",
+			foreignKey = @ForeignKey(
+					name = "FK_PESSOA_ENDERECO"
+			)
+	)
 	private Pessoa pessoa;
 
 }
