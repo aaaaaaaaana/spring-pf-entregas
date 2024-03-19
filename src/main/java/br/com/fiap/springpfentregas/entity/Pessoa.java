@@ -17,18 +17,22 @@ import java.time.LocalDate;
 public class Pessoa {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE,generator="SQ_PESSOA")
-	@SequenceGenerator(name="SQ_PESSOA",sequenceName="SQ_PESSOA",allocationSize=1)
-	@Column(name="ID_PESSOA")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_PESSOA")
+	@SequenceGenerator(
+			name = "SQ_PESSOA",
+			sequenceName = "SQ_PESSOA",
+			allocationSize = 1
+	)
+	@Column(name = "ID_PESSOA")
 	private Long id;
 
-	@Column(name="NM_PESSOA")
+	@Column(name = "NM_PESSOA")
 	private String nome;
 
-	@Column(name="EMAIL")
+	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name="NASCIMENTO")
+	@Column(name = "NASCIMENTO")
 	private LocalDate nascimento;
 
 }

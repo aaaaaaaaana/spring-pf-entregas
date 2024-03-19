@@ -15,18 +15,22 @@ import lombok.NoArgsConstructor;
 public class Endereco {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE,generator="SQ_ENDERECO")
-	@SequenceGenerator(name="SQ_ENDERECO",sequenceName="SQ_ENDERECO",allocationSize=1)
-	@Column(name="ID_ENDERECO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SQ_ENDERECO")
+	@SequenceGenerator(
+			name = "SQ_ENDERECO",
+			sequenceName = "SQ_ENDERECO",
+			allocationSize = 1
+	)
+	@Column(name = "ID_ENDERECO")
 	private Long id;
 
-	@Column(name="CEP")
+	@Column(name = "CEP")
 	private String cep;
 
-	@Column(name="NUMERO")
+	@Column(name = "NUMERO")
 	private String numero;
 
-	@Column(name="COMPLEMENTO")
+	@Column(name = "COMPLEMENTO")
 	private String complemento;
 
 	@ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.PERSIST})

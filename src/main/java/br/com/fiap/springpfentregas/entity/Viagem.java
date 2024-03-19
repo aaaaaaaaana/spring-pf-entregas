@@ -7,8 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -19,9 +22,13 @@ import java.util.Set;
 public class Viagem {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE,generator="SQ_VIAGEM")
-	@SequenceGenerator(name="SQ_VIAGEM",sequenceName="SQ_VIAGEM",allocationSize=1)
-	@Column(name="ID_VIAGEM")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SQ_VIAGEM")
+	@SequenceGenerator(
+			name = "SQ_VIAGEM",
+			sequenceName = "SQ_VIAGEM",
+			allocationSize = 1
+	)
+	@Column(name = "ID_VIAGEM")
 	private Long id;
 
 	@Column(name = "SAIDA")
@@ -105,7 +112,7 @@ public class Viagem {
 					)
 			}
 	)
-	private Set<Produto> produtos = new LinkedHashSet<>();
+	private List<Produto> produtos = new ArrayList<>();
 
 
 }

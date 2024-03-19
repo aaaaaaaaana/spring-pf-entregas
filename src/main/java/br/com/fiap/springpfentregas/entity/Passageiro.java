@@ -15,9 +15,13 @@ import lombok.NoArgsConstructor;
 public class Passageiro {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE,generator="SQ_PASSAGEIRO")
-	@SequenceGenerator(name="SQ_PASSAGEIRO",sequenceName="SQ_PASSAGEIRO",allocationSize=1)
-	@Column(name="ID_PASSAGEIRO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SQ_PASSAGEIRO")
+	@SequenceGenerator(
+			name = "SQ_PASSAGEIRO",
+			sequenceName = "SQ_PASSAGEIRO",
+			allocationSize = 1
+	)
+	@Column(name = "ID_PASSAGEIRO")
 	private Long id;
 
 	@OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})

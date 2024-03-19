@@ -15,27 +15,31 @@ import lombok.NoArgsConstructor;
 public class Produto {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SQ_PRODUTO")
-	@SequenceGenerator(name="SQ_PRODUTO",sequenceName="SQ_PRODUTO",allocationSize=1)
-	@Column(name="ID_PRODUTO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SQ_PRODUTO")
+	@SequenceGenerator(
+			name = "SQ_PRODUTO",
+			sequenceName = "SQ_PRODUTO",
+			allocationSize = 1
+	)
+	@Column(name = "ID_PRODUTO")
 	private Long id;
 
-	@Column(name="ETIQUETA")
+	@Column(name = "ETIQUETA")
 	private String etiqueta;
 
-	@Column(name="NM_PRODUTO")
+	@Column(name = "NM_PRODUTO")
 	private String nome;
 
-	@Column(name="PESO")
+	@Column(name = "PESO")
 	private Float peso;
 
-	@Column(name="LARGURA")
+	@Column(name = "LARGURA")
 	private Float largura;
 
-	@Column(name="ALTURA")
+	@Column(name = "ALTURA")
 	private Float altura;
 
-	@Column(name="PROFUNDIDADE")
+	@Column(name = "PROFUNDIDADE")
 	private Float profundidade;
 
 }

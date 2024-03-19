@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/viagem")
 public class ViagemResource {
+
     @Autowired
-    ViagemRepository repo;
+    private ViagemRepository repo;
 
     @GetMapping
     public List<Viagem> findAll(){
@@ -20,15 +22,17 @@ public class ViagemResource {
     }
 
     @GetMapping(value = "/{id}")
-    public Viagem fincById(@PathVariable Long id){
+    public Viagem findById(@PathVariable Long id){
         return repo.findById(id).orElseThrow();
     }
 
     @Transactional
     @PostMapping
-    public Viagem save(@RequestBody Viagem p){
-        p.setId(null);
-        return repo.save(p);
+    public Viagem save(@RequestBody Viagem v){
+        if (Objects.isNull(v)) return null;
+        v.setId( null );
+
+        return repo.save(v);
     }
 
 }
