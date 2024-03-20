@@ -34,24 +34,41 @@ public class EnderecoResource {
         List<Endereco> end = repo.findAll();
         List<Long> id = new ArrayList<>();
         for (Endereco obj  : end ) {
-            if (obj.getCep().equals(cep)){
-                id.add(obj.getId());
+            if (Objects.nonNull(obj.getCep())){
+
+                if (obj.getCep().equals(cep)){
+                    id.add(obj.getId());
+                }
             }
         }
         return repo.findAllById(id);
     }
 
     @GetMapping(value = "/pessoa/{idPessoa}")
-    public Endereco findAllById(@PathVariable Long idPessoa){
-        Pessoa pessoa = repoP.findById(idPessoa).orElseThrow();
-        return repo.findById(pessoa.getId()).orElseThrow();
+    public List<Endereco> findAllById(@PathVariable Long idPessoa){
+        List<Endereco> end = repo.findAll();
+        List<Long> id = new ArrayList<>();
+        for (Endereco obj :end){
+            if (Objects.nonNull(obj.getPessoa())){
+                var pes = obj.getPessoa();
+                if (pes.getId().equals(idPessoa)){
+                    id.add(obj.getId());
+                }
+            }
+        }
+        return repo.findAllById(id);
     }
 
     @Transactional
     @PostMapping
     public Endereco save(@RequestBody Endereco e) {
         if(Objects.isNull(e)) return null;
+
         e.setId(null);
+
+        if (Objects.nonNull( e.getPessoa())) {
+            e.setPessoa( repoP.findById(e.getPessoa().getId()).orElseThrow());
+        }
         return repo.save( e );
     }
 
