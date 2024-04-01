@@ -2,8 +2,8 @@ package br.com.fiap.springpfentregas.resources;
 
 import br.com.fiap.springpfentregas.entity.Pessoa;
 import br.com.fiap.springpfentregas.repository.PessoaRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,16 +23,17 @@ public class PessoaResource {
 
     @GetMapping(value = "/{id}")
     public Pessoa findById(@PathVariable Long id){
-        return repo.findById(id).orElseThrow();
+        return repo.findById(id).orElse(null);
     }
 
     @Transactional
     @PostMapping
-    public Pessoa save(@RequestBody Pessoa p){
-        if(Objects.isNull(p)) return null;
-        p.setId(null);
+    public Pessoa save(@RequestBody Pessoa pessoa){
+        if(Objects.isNull(pessoa)) return null;
 
-        return repo.save(p);
+        pessoa.setId(null);
+
+        return repo.save(pessoa);
     }
 
 }

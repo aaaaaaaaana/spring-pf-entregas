@@ -1,11 +1,10 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3307/2tdspf-authentication?createDatabaseIfNotExist=true
+    url: jdbc:mariadb://localhost:3307/cp1-entregas?createDatabaseIfNotExist=true
     username: root
     password: root
   jpa:
     hibernate:
       ddl-auto: update
-      open-in-view: true
-      show-sql: true
-      generate-ddl: true
+    show-sql: true
+    open-in-view: false

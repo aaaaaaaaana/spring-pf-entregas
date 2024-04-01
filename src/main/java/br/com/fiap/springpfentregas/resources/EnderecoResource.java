@@ -6,12 +6,12 @@ import br.com.fiap.springpfentregas.repository.EnderecoRepository;
 import br.com.fiap.springpfentregas.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.net.URI;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/endereco")
@@ -29,47 +29,35 @@ public class EnderecoResource {
         return repo.findAll();
     }
 
-    @GetMapping(value = "/cep/{cep}")
-    public List<Endereco> findById(@PathVariable String cep){
-        List<Endereco> end = repo.findAll();
-        List<Long> id = new ArrayList<>();
-        for (Endereco obj  : end ) {
-            if (Objects.nonNull(obj.getCep())){
-
-                if (obj.getCep().equals(cep)){
-                    id.add(obj.getId());
-                }
-            }
+    @Transactional
+    @PostMapping
+    public ResponseEntity<Endereco> save(@RequestBody Endereco endereco) {
+        if(Objects.isNull(endereco)) return ResponseEntity.badRequest().build();
+        if (Objects.nonNull( endereco.getPessoa())) {
+            Optional<Pessoa> pessoa = repoP.findById(endereco.getPessoa().getId());
+            if(pessoa.isPresent()) endereco.setPessoa(pessoa.get());
         }
-        return repo.findAllById(id);
+
+        endereco.setId(null);
+        Endereco save = repo.save( endereco );
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequestUri()
+                .replacePath("/{id}")
+                .buildAndExpand(save.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(save);
+
+    }
+
+    @GetMapping(value = "/cep/{cep}")
+    public List<Endereco> findByCep(@PathVariable String cep){
+        return repo.findByCep(cep);
     }
 
     @GetMapping(value = "/pessoa/{idPessoa}")
-    public List<Endereco> findAllById(@PathVariable Long idPessoa){
-        List<Endereco> end = repo.findAll();
-        List<Long> id = new ArrayList<>();
-        for (Endereco obj :end){
-            if (Objects.nonNull(obj.getPessoa())){
-                var pes = obj.getPessoa();
-                if (pes.getId().equals(idPessoa)){
-                    id.add(obj.getId());
-                }
-            }
-        }
-        return repo.findAllById(id);
-    }
-
-    @Transactional
-    @PostMapping
-    public Endereco save(@RequestBody Endereco e) {
-        if(Objects.isNull(e)) return null;
-
-        e.setId(null);
-
-        if (Objects.nonNull( e.getPessoa())) {
-            e.setPessoa( repoP.findById(e.getPessoa().getId()).orElseThrow());
-        }
-        return repo.save( e );
+    public List<Endereco> findAllByPessoaId(@PathVariable Long idPessoa){
+        return repo.findByPessoaId(idPessoa);
     }
 
 }

@@ -1,5 +1,7 @@
 package br.com.fiap.springpfentregas.resources;
 
+import br.com.fiap.springpfentregas.dto.request.ProdutoRequest;
+import br.com.fiap.springpfentregas.dto.response.ProdutoResponse;
 import br.com.fiap.springpfentregas.entity.Produto;
 import br.com.fiap.springpfentregas.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
@@ -18,22 +20,25 @@ public class ProdutoResource {
     private ProdutoRepository repo;
 
     @GetMapping
-    public List<Produto> findAll(){
+    public List<ProdutoRequest> findAll(){
         return repo.findAll();
     }
 
     @GetMapping(value = "/{id}")
-    public Produto findById(@PathVariable Long id){
-        return repo.findById(id).orElseThrow();
+    public ProdutoResponse findById(@PathVariable Long id){
+        return repo.findById(id).orElse(null);
     }
 
     @Transactional
     @PostMapping
-    public Produto save(@RequestBody Produto p){
-        if(Objects.isNull(p)) return null;
-        p.setId(null);
+    public ProdutoResponse save(@RequestBody ProdutoResponse produto){
 
-        return repo.save(p);
+        if(Objects.isNull(produto)) return null;
+        produto.setId(null);
+
+        // Podemos gerar aleatoriamente uma etiqueta.
+
+        return repo.save( produto );
     }
 
 }

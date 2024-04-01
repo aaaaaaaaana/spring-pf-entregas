@@ -24,7 +24,11 @@ public class Passageiro {
 	@Column(name = "ID_PASSAGEIRO")
 	private Long id;
 
-	@OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+	// ManyToMany = *
+	// OneToOne = 1 e 1
+	// ManyToOne = sem notação
+
+	@ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST}) // não é OneToOne por causa do projeto. O passageiro tem que se cadastrar a cada viagem;
 	@JoinColumn(
 			name = "PESSOA",
 			referencedColumnName = "ID_PESSOA",

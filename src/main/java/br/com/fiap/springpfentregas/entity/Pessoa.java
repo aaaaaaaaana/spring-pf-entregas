@@ -29,10 +29,10 @@ public class Pessoa {
 	@Column(name = "NM_PESSOA")
 	private String nome;
 
-	@Column(name = "EMAIL")
+	// @Column(name = "EMAIL")
 	private String email;
 
-	@Column(name = "NASCIMENTO")
+	@Column(name = "DT_NASCIMENTO")
 	private LocalDate nascimento;
 
 }
